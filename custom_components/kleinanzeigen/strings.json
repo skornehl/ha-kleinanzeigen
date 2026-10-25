@@ -1,0 +1,50 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Kleinanzeigen",
+        "description": "URL of the “Kleinanzeigen Bridge” add-on. Credentials are set in the add-on options.",
+        "data": {
+          "bridge_url": "Bridge add-on URL"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Bridge add-on not reachable"
+    },
+    "abort": {
+      "already_configured": "This bridge is already configured"
+    }
+  },
+  "entity": {
+    "button": {
+      "republish_all": {
+        "name": "Republish all"
+      },
+      "refresh": {
+        "name": "Refresh list"
+      },
+      "continue": {
+        "name": "Continue (captcha solved)"
+      },
+      "cancel": {
+        "name": "Cancel job"
+      }
+    },
+    "sensor": {
+      "job": {
+        "name": "Job",
+        "state": {
+          "idle": "Idle",
+          "running": "Running",
+          "waiting_for_user": "Waiting for you",
+          "success": "Success",
+          "error": "Error"
+        }
+      },
+      "quota": {
+        "name": "Published (30 days)"
+      }
+    }
+  }
+}

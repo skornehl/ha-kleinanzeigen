@@ -1,0 +1,26 @@
+name: "Kleinanzeigen Bridge"
+version: "0.1.0"
+slug: "kleinanzeigen_bridge"
+description: >-
+  Runs kleinanzeigen-bot (real Chromium) to list your own kleinanzeigen.de
+  ads and re-publish them as 1:1 copies incl. images. Backend for the
+  kleinanzeigen HA integration; the browser desktop is available in the
+  sidebar for solving captchas.
+url: "https://github.com/skornehl/ha-kleinanzeigen"
+arch:
+  - amd64
+  - aarch64
+init: false
+ingress: true
+panel_icon: "mdi:tag-arrow-up"
+panel_title: "Kleinanzeigen"
+options:
+  username: ""
+  password: ""
+  min_days_between_republish: 7
+  list_refresh_hours: 12
+schema:
+  username: email
+  password: password
+  min_days_between_republish: int(0,60)
+  list_refresh_hours: int(0,168)

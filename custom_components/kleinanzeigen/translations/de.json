@@ -1,0 +1,50 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Kleinanzeigen",
+        "description": "Adresse des Add-ons „Kleinanzeigen Bridge“. Zugangsdaten stehen in den Add-on-Optionen.",
+        "data": {
+          "bridge_url": "Bridge-Add-on URL"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Bridge-Add-on nicht erreichbar"
+    },
+    "abort": {
+      "already_configured": "Diese Bridge ist bereits eingerichtet"
+    }
+  },
+  "entity": {
+    "button": {
+      "republish_all": {
+        "name": "Alle neu einstellen"
+      },
+      "refresh": {
+        "name": "Liste aktualisieren"
+      },
+      "continue": {
+        "name": "Weiter (Captcha gelöst)"
+      },
+      "cancel": {
+        "name": "Auftrag abbrechen"
+      }
+    },
+    "sensor": {
+      "job": {
+        "name": "Auftrag",
+        "state": {
+          "idle": "Bereit",
+          "running": "Läuft",
+          "waiting_for_user": "Wartet auf dich",
+          "success": "Erfolgreich",
+          "error": "Fehler"
+        }
+      },
+      "quota": {
+        "name": "Neu eingestellt (30 Tage)"
+      }
+    }
+  }
+}
