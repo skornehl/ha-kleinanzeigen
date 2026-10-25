@@ -1,3 +1,0 @@
-build_from:
-  amd64: "ghcr.io/second-hand-friends/kleinanzeigen-bot:latest-amd64"
-  aarch64: "ghcr.io/second-hand-friends/kleinanzeigen-bot:latest-arm64"

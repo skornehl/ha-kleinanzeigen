@@ -19,7 +19,7 @@ mkdir -p /tmp/.X11-unix
 rm -f /tmp/.X99-lock /tmp/.X11-unix/X99
 Xvnc :99 \
   -geometry 1440x900 -depth 24 \
-  -websocketPort 6080 -interface 127.0.0.1 -localhost yes \
+  -websocketPort 6080 -interface 127.0.0.1 \
   -PublicIP 127.0.0.1 \
   -SecurityTypes None -sslOnly 0 -disableBasicAuth \
   -httpd /usr/share/kasmvnc/www >/tmp/xvnc.log 2>&1 &

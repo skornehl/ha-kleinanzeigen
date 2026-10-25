@@ -42,7 +42,7 @@ PROFILE_DIR = WORK_DIR / "browser-profile"
 BOT_BINARY = "/opt/kleinanzeigen-bot"
 VNC_URL = "http://127.0.0.1:6080"
 PORT = 8099
-VERSION = "0.1.0"
+VERSION = "0.1.1"
 
 ARCHIVE_KEEP = 5
 JOB_TIMEOUT_S = 30 * 60
@@ -54,6 +54,7 @@ QUOTA_WINDOW = timedelta(days=30)
 # could otherwise drive the bot or open the logged-in browser desktop.
 ALLOWED_PEERS = {"172.30.32.1", "172.30.32.2", "127.0.0.1"}
 
+ANSI_RE = re.compile(r"\x1b\[[0-9;]*m")
 PROMPT_RE = re.compile(r"(Press a key|Press ENTER|press Enter)", re.IGNORECASE)
 LIST_RE = re.compile(
     r"ID:\s*(\d+)\s*\n\s*title:\s*(.*?)\s*\n\s*status:\s*(.*?)\s*\n\s*expires:\s*(.*?)\s*(?:\n|$)"
@@ -205,7 +206,7 @@ class Bridge:
                     chunk = await self.process.stdout.read(4096)
                     if not chunk:
                         break
-                    text = chunk.decode("utf-8", errors="replace")
+                    text = ANSI_RE.sub("", chunk.decode("utf-8", errors="replace"))
                     output.append(text)
                     buf += text
                     *lines, buf = buf.split("\n")
@@ -233,7 +234,7 @@ class Bridge:
         return rc, "".join(output)
 
     def _log(self, line: str) -> None:
-        line = line.rstrip()
+        line = ANSI_RE.sub("", line).rstrip()
         if not line:
             return
         _LOGGER.info("bot: %s", line)
@@ -483,7 +484,10 @@ async def _ws_proxy(request: web.Request, target: str) -> web.WebSocketResponse:
     ws_client = web.WebSocketResponse(protocols=protocols, max_msg_size=0)
     await ws_client.prepare(request)
     async with ClientSession() as session:
-        async with session.ws_connect(target, protocols=protocols, max_msg_size=0) as ws_server:
+        # KasmVNC rejects websockets without an Origin header (404).
+        async with session.ws_connect(
+            target, protocols=protocols, max_msg_size=0, headers={"Origin": VNC_URL}
+        ) as ws_server:
 
             async def pump(src, dst) -> None:
                 async for msg in src:
