@@ -1,5 +1,5 @@
-ARG BUILD_FROM
-FROM $BUILD_FROM
+# Multi-arch manifest (amd64 + arm64): buildx picks the matching image.
+FROM ghcr.io/second-hand-friends/kleinanzeigen-bot:latest
 
 # The base image is the official kleinanzeigen-bot image: Debian trixie with
 # Chromium, KasmVNC, openbox and the compiled bot at /opt/kleinanzeigen-bot.
