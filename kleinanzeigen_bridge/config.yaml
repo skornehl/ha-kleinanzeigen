@@ -12,10 +12,8 @@ arch:
   - aarch64
 init: false
 ingress: true
-ingress_port: 8099
 panel_icon: "mdi:tag-arrow-up"
 panel_title: "Kleinanzeigen"
-panel_admin: true
 options:
   username: ""
   password: ""
