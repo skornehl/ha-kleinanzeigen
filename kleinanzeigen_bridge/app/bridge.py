@@ -19,6 +19,7 @@ The add-on image is based on the official kleinanzeigen-bot Docker image
 from __future__ import annotations
 
 import asyncio
+import codecs
 from datetime import datetime, timedelta, timezone
 import json
 import logging
@@ -42,7 +43,7 @@ PROFILE_DIR = WORK_DIR / "browser-profile"
 BOT_BINARY = "/opt/kleinanzeigen-bot"
 VNC_URL = "http://127.0.0.1:6080"
 PORT = 8099
-VERSION = "0.1.1"
+VERSION = "0.1.2"
 
 ARCHIVE_KEEP = 5
 JOB_TIMEOUT_S = 30 * 60
@@ -199,6 +200,10 @@ class Bridge:
         )
         output: list[str] = []
         buf = ""
+        # Decode incrementally and strip colour codes only from joined text:
+        # a 4096-byte read can split a multi-byte character (ß, ä) or an
+        # ANSI sequence, and handling each piece on its own garbles both.
+        decoder = codecs.getincrementaldecoder("utf-8")(errors="replace")
         try:
             async with asyncio.timeout(JOB_TIMEOUT_S):
                 assert self.process.stdout is not None
@@ -206,14 +211,15 @@ class Bridge:
                     chunk = await self.process.stdout.read(4096)
                     if not chunk:
                         break
-                    text = ANSI_RE.sub("", chunk.decode("utf-8", errors="replace"))
+                    text = decoder.decode(chunk)
                     output.append(text)
                     buf += text
                     *lines, buf = buf.split("\n")
                     for line in lines:
                         self._log(line)
                     # input() prompts end without a newline - check the rest too.
-                    if PROMPT_RE.search(buf) or any(PROMPT_RE.search(line) for line in lines):
+                    rest = ANSI_RE.sub("", buf)
+                    if PROMPT_RE.search(rest) or any(PROMPT_RE.search(ANSI_RE.sub("", line)) for line in lines):
                         self.job["status"] = "waiting_for_user"
                         self.job["message"] = (
                             "Der Bot wartet auf dich (Captcha oder Bestätigung). Im "
@@ -231,7 +237,10 @@ class Bridge:
             if buf:
                 self._log(buf)
             self.process = None
-        return rc, "".join(output)
+        tail = decoder.decode(b"", final=True)
+        if tail:
+            output.append(tail)
+        return rc, ANSI_RE.sub("", "".join(output))
 
     def _log(self, line: str) -> None:
         line = ANSI_RE.sub("", line).rstrip()
