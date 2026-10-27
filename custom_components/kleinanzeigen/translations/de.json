@@ -7,13 +7,21 @@
         "data": {
           "bridge_url": "Bridge-Add-on URL"
         }
+      },
+      "reconfigure": {
+        "title": "Bridge-Add-on wechseln",
+        "description": "Neue Bridge-URL. Das Add-on aus dem Repository skornehl/ha-addons ist unter {default_url} erreichbar.",
+        "data": {
+          "bridge_url": "Bridge-Add-on URL"
+        }
       }
     },
     "error": {
       "cannot_connect": "Bridge-Add-on nicht erreichbar"
     },
     "abort": {
-      "already_configured": "Diese Bridge ist bereits eingerichtet"
+      "already_configured": "Diese Bridge ist bereits eingerichtet",
+      "reconfigure_successful": "Bridge-URL geändert"
     }
   },
   "entity": {
