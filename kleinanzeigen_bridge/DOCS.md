@@ -1,5 +1,10 @@
 # Kleinanzeigen Bridge
 
+> **Moved:** this add-on is now published from
+> [skornehl/ha-addons](https://github.com/skornehl/ha-addons). This copy
+> gets no further updates - see the repository README for switching.
+
+
 Backend for the `kleinanzeigen` integration (see the repository README).
 
 ## Options

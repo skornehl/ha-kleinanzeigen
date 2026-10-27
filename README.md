@@ -4,11 +4,11 @@ Re-publish your own [kleinanzeigen.de](https://www.kleinanzeigen.de) ads as
 1:1 copies (text **and** images) with one button press, so they show up at
 the top of the search results again.
 
-Two parts, one repository:
+Two parts:
 
 | Part | What it does |
 | --- | --- |
-| `kleinanzeigen_bridge/` (add-on) | Runs [kleinanzeigen-bot](https://github.com/Second-Hand-Friends/kleinanzeigen-bot) in a real Chromium, holds the login session, exposes a small local HTTP API. The bot's browser desktop is available in the HA sidebar for solving captchas. |
+| Kleinanzeigen Bridge (add-on, published from [skornehl/ha-addons](https://github.com/skornehl/ha-addons)) | Runs [kleinanzeigen-bot](https://github.com/Second-Hand-Friends/kleinanzeigen-bot) in a real Chromium, holds the login session, exposes a small local HTTP API. The bot's browser desktop is available in the HA sidebar for solving captchas. |
 | `custom_components/kleinanzeigen/` (HACS integration) | One sensor + one "neu einstellen" button per ad, "Alle neu einstellen", job status, 30-day publication count. |
 
 ## How a re-publication works
@@ -34,13 +34,23 @@ accidental double presses and the free quota.
 ## Installation
 
 1. Settings → Add-ons → Add-on Store → ⋮ → Repositories → add
-   `https://github.com/skornehl/ha-kleinanzeigen`.
+   `https://github.com/skornehl/ha-addons`.
 2. Install **Kleinanzeigen Bridge**, set `username` (e-mail) and `password`, start it.
 3. HACS → Custom repositories → `https://github.com/skornehl/ha-kleinanzeigen`
    (type *Integration*) → install **Kleinanzeigen**, restart HA.
 4. Settings → Devices & services → Add integration → *Kleinanzeigen*. The default
-   bridge URL (`http://c42de2d9-kleinanzeigen-bridge:8099`) matches an add-on
-   installed from this repository URL.
+   bridge URL (`http://6dc2c37d-kleinanzeigen-bridge:8099`) matches the add-on
+   installed from `skornehl/ha-addons`; **Reconfigure** on the entry changes it.
+
+### Moving from the old add-on
+
+Up to 0.1.2 the bridge was published from this repository. It now lives in
+[skornehl/ha-addons](https://github.com/skornehl/ha-addons); the copy in
+`kleinanzeigen_bridge/` here gets no further updates. To switch: add the new
+add-on repository, install the bridge from there and enter the same
+credentials, stop the old bridge, then open the integration and choose
+**Reconfigure** - the default URL is the new bridge. Entities and history
+stay. Finally uninstall the old add-on.
 
 If the job sensor shows *Wartet auf dich*, open **Kleinanzeigen** in the
 sidebar, solve the captcha in the browser shown there and press
