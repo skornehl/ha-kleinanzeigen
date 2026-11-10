@@ -45,8 +45,8 @@ accidental double presses and the free quota.
 ### Moving from the old add-on
 
 Up to 0.1.2 the bridge was published from this repository. It now lives in
-[skornehl/ha-addons](https://github.com/skornehl/ha-addons); the copy in
-`kleinanzeigen_bridge/` here gets no further updates. To switch: add the new
+[skornehl/ha-addons](https://github.com/skornehl/ha-addons); the
+old copy has been removed from this repository. To switch: add the new
 add-on repository, install the bridge from there and enter the same
 credentials, stop the old bridge, then open the integration and choose
 **Reconfigure** - the default URL is the new bridge. Entities and history
